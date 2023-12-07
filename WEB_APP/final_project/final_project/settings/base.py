@@ -17,21 +17,11 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
-
-# False if not in os.environ because of casting above
-DEBUG = os.getenv('DEBUG')
-
-# Raises Django's ImproperlyConfigured
-# exception if SECRET_KEY not in os.environ
-SECRET_KEY = os.getenv('SECRET_KEY')
-
-
-ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -54,6 +44,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     
 ]
 
@@ -77,17 +68,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'final_project.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
 
 
 # Password validation
@@ -123,15 +103,21 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR,'static')]
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR,'static')]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# CSRF_COOKIE_SECURE = False
+# SESSION_COOKIE_SECURE = False
+#CSRF_TRUSTED_ORIGINS = [os.getenv('URL_WEBAPP')]
+CSRF_TRUSTED_ORIGINS = ['https://*.lebihan-django-azure-app.azurewebsites.net']
+
 
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"  # new
